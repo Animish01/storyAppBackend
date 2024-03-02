@@ -15,7 +15,7 @@ module.exports = {
                     const token = await createSecretToken(user.username);
                     res.cookie("token", token, {
                         withCredentials: true,
-                        httpOnly: true
+                        // httpOnly: true
                     })
                     res.status(201).send('success');
                 }
