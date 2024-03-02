@@ -5,6 +5,8 @@ module.exports = {
     userVerification: async (req, res) => {
         try {
             const token = req?.cookies?.token;
+            console.log(req.cookie);
+            console.log(req.cookies);
             if (!token) {
                 console.log('no token present');
                 return res.json({ status: false })
