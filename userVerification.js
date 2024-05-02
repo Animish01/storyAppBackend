@@ -4,12 +4,10 @@ const { connectDb } = require('./db.js');
 module.exports = {
     userVerification: async (req, res) => {
         try {
-            const token = req?.cookies?.token;
-            console.log(req.cookie);
-            console.log(req.cookies);
+            const { token } = req?.body;
             if (!token) {
                 console.log('no token present');
-                return res.json({ status: false })
+                return res.json({ message: 'no token present', status: false })
             }
             jwt.verify(token, process.env.JWT_SECRET_TOKEN, async (err, data) => {
                 if (err) return res.json({ status: false })

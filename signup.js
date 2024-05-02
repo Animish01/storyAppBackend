@@ -23,19 +23,14 @@ module.exports = {
                 return;
             }
 
-            const user = await dataBase.insertOne({
+            await dataBase.insertOne({
                 'username': userName,
                 'password': hashPw,
                 'email': email,
             })
             console.log(userName + ' inserted');
-
-            const token = await createSecretToken(user.username);
-            res.cookie("token", token, {
-                withCredentials: true,
-                // httpOnly: true
-            })
-            res.status(201).send('success');
+            const token = await createSecretToken(userName);
+            res.status(201).send({message: 'success', authToken: token});
         }
         catch (e) {
             console.log(e);

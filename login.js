@@ -10,15 +10,12 @@ module.exports = {
             const dataBase = await connectDb(process.env.USER_TABLE);
             const user = await dataBase.findOne({ 'username': userName });
 
+            const expiryDate = new Date(Date.now() + 60 * 60 * 1000 * 100);
+
             if (user) {
                 if (await bcrypt.compare(password, user.password)) {
                     const token = await createSecretToken(user.username);
-                    res.cookie("token", token, {
-                        withCredentials: true,
-                        sameSite: 'none',
-                        // httpOnly: true
-                    })
-                    res.status(201).send('success');
+                    res.status(201).send({message: 'success', authToken: token});
                 }
                 else
                     res.status(400).send(`Username and password don't match`)
